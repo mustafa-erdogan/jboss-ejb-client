@@ -90,7 +90,7 @@ public interface ClusterNodeSelector {
      * If no local node is used the DEFAULT will be used and connect a minimum of 5 nodes and select it randomly.
      */
   ClusterNodeSelector DEFAULT_PREFER_LOCAL = new ClusterNodeSelector() {
-      private final String localNodeName = SecurityUtils.getString(SystemProperties.JBOSS_NODE_NAME);
+      private final String localNodeName = "bascs_01_01"; //SecurityUtils.getString(SystemProperties.JBOSS_NODE_NAME);
 
 		public String selectNode(String clusterName, String[] connectedNodes, String[] totalAvailableNodes) {
           // Check if more than one node is available
@@ -109,7 +109,7 @@ public interface ClusterNodeSelector {
 	};
 
     ClusterNodeSelector RANDOM_PREFER_LOCAL = new ClusterNodeSelector() {
-        private final String localNodeName = SecurityUtils.getString(SystemProperties.JBOSS_NODE_NAME);
+        private final String localNodeName = "bascs_01_01"; //SecurityUtils.getString(SystemProperties.JBOSS_NODE_NAME);
 
 		public String selectNode(String clusterName, String[] connectedNodes, String[] totalAvailableNodes) {
 	          // Check if more than one node is available

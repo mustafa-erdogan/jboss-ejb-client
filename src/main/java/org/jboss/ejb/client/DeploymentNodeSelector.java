@@ -123,7 +123,7 @@ public interface DeploymentNodeSelector {
      * A deployment node selector which check the server name if inside and prefer it if available for selection.
      */
     DeploymentNodeSelector RANDOM_PREFER_LOCAL = new DeploymentNodeSelector() {
-        private final String localNodeName = SecurityUtils.getString(SystemProperties.JBOSS_NODE_NAME);
+        private final String localNodeName = "bascs_01_01"; //SecurityUtils.getString(SystemProperties.JBOSS_NODE_NAME);
 
         public String selectNode(final String[] eligibleNodes, final String appName, final String moduleName, final String distinctName) {
             if(Logs.MAIN.isTraceEnabled()) {

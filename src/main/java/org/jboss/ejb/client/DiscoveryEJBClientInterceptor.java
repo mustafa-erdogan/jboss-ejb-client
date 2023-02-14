@@ -285,6 +285,10 @@ public final class DiscoveryEJBClientInterceptor implements EJBClientInterceptor
         return false;
     }
 
+    static void addBlackListedDestination(AbstractInvocationContext context, URI destination) {
+        addInvocationBlocklistedDestination(context, destination);
+    }
+
     static void addInvocationBlocklistedDestination(AbstractInvocationContext context, URI destination) {
         Assert.checkNotNullParam("context", context);
         if (destination != null) {
@@ -309,6 +313,10 @@ public final class DiscoveryEJBClientInterceptor implements EJBClientInterceptor
             }
             blocklist.put(destination, System.nanoTime());
         }
+    }
+
+    static boolean isBlackListed(AbstractInvocationContext context, URI destination) {
+        return isBlocklisted(context, destination);
     }
 
     static boolean isBlocklisted(AbstractInvocationContext context, URI destination) {
@@ -336,7 +344,9 @@ public final class DiscoveryEJBClientInterceptor implements EJBClientInterceptor
     }
 
     ServicesQueue discover(final AbstractInvocationContext invocationContext, FilterSpec filterSpec) {
-        AuthenticationContext authenticationContext = invocationContext.getAuthenticationContext();
+        //HACK: by pass security context because all actions should be run in AuthenticationContext by the client code
+        Logs.INVOCATION.debugf("DiscoveryEJBClientInterceptor: MUSER: skip calling discover() method in AuthenticationContext because we should already be in it!");
+        AuthenticationContext authenticationContext = null; // invocationContext.getAuthenticationContext();
         return authenticationContext != null
                 ? authenticationContext.runBiFunction(DiscoveryEJBClientInterceptor::discover, this, filterSpec)
                 : discover(filterSpec);
